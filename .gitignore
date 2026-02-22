@@ -1,0 +1,47 @@
+# Build outputs
+bin/
+obj/
+**/bin/
+**/obj/
+
+# VS/Rider solution and user files
+.vs/
+.idea/
+*.sln.iml
+riderModule.iml
+/_ReSharper.Caches/
+
+# Packages and restores
+packages/
+**/packages/
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Test and coverage
+TestResult*/
+[Tt]est[Rr]esult*/
+*.coverage
+*.coveragexml
+*.trx
+coverage/
+
+# Logs and diagnostics
+*.log
+*.svclog
+*.pid
+
+# User/local config
+*.user
+*.userosscache
+*.suo
+*.userprefs
+.DS_Store
+Thumbs.db
+
+# Tooling
+.vscode/
+.ionide/
+.terraform/
