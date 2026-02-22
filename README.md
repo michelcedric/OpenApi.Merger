@@ -1,4 +1,7 @@
 # OpenApi.Merger
+[![CI / Publish NuGet](https://github.com/michelcedric/OpenApi.Merger/actions/workflows/publish-nuget.yml/badge.svg)](https://github.com/michelcedric/OpenApi.Merger/actions/workflows/publish-nuget.yml)
+![NuGet Downloads](https://img.shields.io/nuget/dt/Extend.OpenApi.Source.Merger?style=flat)
+
 
 Merge multiple OpenAPI (Swagger) JSON documents into a single specification. The solution contains a reusable library and a console host that reads configuration, fetches the swagger docs, merges them, and writes `output.json`.
 
