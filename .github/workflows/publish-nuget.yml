@@ -33,6 +33,14 @@ jobs:
       - name: Pack
         run: dotnet pack OpenApi.Merger/OpenApi.Merger.csproj -c Release -o . --no-build
 
+      - name: Check NuGet key
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish == 'true'
+        run: |
+          if [ -z "${{ secrets.NUGET_KEY }}" ]; then
+            echo "Error: secrets.NUGET_KEY is not set. Add the secret to publish to NuGet.";
+            exit 1;
+          fi
+
       - name: Publish
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish == 'true'
-        run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate -n
+        run: dotnet nuget push "*.nupkg" --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
