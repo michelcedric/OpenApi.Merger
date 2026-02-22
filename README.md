@@ -39,6 +39,7 @@ The merger uses the `OpenApiMerger` section from `appsettings.json`:
 	- `ServerUrl`: base URL for the API.
 	- `PathPrefix`: prefix added before paths (use empty string if none).
 	- `OpenApiPath`: relative path to the swagger JSON.
+	- `FilePath` (optional): when present the merger will read the OpenAPI JSON from this local file instead of fetching the URL. Paths are resolved relative to the process working directory or may be absolute.
 
 ## Running the console merger
 1) Ensure each target API serves swagger JSON at the configured URLs.
@@ -50,6 +51,24 @@ dotnet run --project OpenApi.Merger.Console/OpenApi.Merger.Console.csproj
 ```
 
 The console fetches all configured specs, merges them, and writes `output.json` in the working directory. It also logs conflicts (e.g., schema name collisions) to the console.
+
+File support
+ - You can point an API entry at a local OpenAPI JSON file by setting `FilePath` in the configuration. This is useful for running the merger in environments where backends are not available or for CI/tests. Example (appsettings.test.json):
+
+```json
+{
+	"OpenApiMerger": {
+		"OpenApiTitle": "Merged API",
+		"OpenApiVersion": "v1",
+		"Apis": [
+			{ "Name": "Api1", "ServerUrl": "http://localhost:5001", "FilePath": "Resources/api1.json" },
+			{ "Name": "Api2", "ServerUrl": "http://localhost:5002", "FilePath": "Resources/api2.json" }
+		]
+	}
+}
+```
+
+ - When `FilePath` is provided the merger loads the file and will not call the `ServerUrl`/`OpenApiPath`.
 
 ## Using the library in your app
 1) Reference `OpenApi.Merger` from your project.
