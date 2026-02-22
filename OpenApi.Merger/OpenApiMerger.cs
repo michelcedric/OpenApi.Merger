@@ -26,15 +26,24 @@ namespace OpenApi.Merger
 
         public async Task<OpenApiDocument> MergeMultipleApisAsync()
         {
-
             var loadedApis = new List<(ApiConfiguration Config, OpenApiDocument Document)>();
 
             foreach (var apiConfig in _options.Apis)
             {
-                var fullUrl = $"{apiConfig.ServerUrl}{apiConfig.PathPrefix}{apiConfig.OpenApiPath}";
-                logger.LogInformation("Loading {Name} from {Url}", apiConfig.Name, fullUrl);
+                OpenApiDocument document;
 
-                var document = await LoadOpenApiDocumentFromUrlAsync(apiConfig, fullUrl);
+                if (!string.IsNullOrWhiteSpace(apiConfig.FilePath))
+                {
+                    var fullPath = Path.GetFullPath(apiConfig.FilePath);
+                    logger.LogInformation("Loading {Name} from file {Path}", apiConfig.Name, fullPath);
+                    document = await LoadOpenApiDocumentFromFileAsync(apiConfig, fullPath);
+                }
+                else
+                {
+                    var fullUrl = $"{apiConfig.ServerUrl}{apiConfig.PathPrefix}{apiConfig.OpenApiPath}";
+                    logger.LogInformation("Loading {Name} from {Url}", apiConfig.Name, fullUrl);
+                    document = await LoadOpenApiDocumentFromUrlAsync(apiConfig, fullUrl);
+                }
 
                 document.Servers =
                 [
@@ -46,6 +55,23 @@ namespace OpenApi.Merger
             }
 
             return MergeDocuments(loadedApis);
+        }
+
+        private async Task<OpenApiDocument> LoadOpenApiDocumentFromFileAsync(ApiConfiguration config, string filePath)
+        {
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException($"OpenAPI file not found at {filePath}", filePath);
+
+            var content = await File.ReadAllBytesAsync(filePath);
+            using var stream = new MemoryStream(content);
+
+            var baseUri = new Uri(filePath, UriKind.Absolute);
+            var settings = new OpenApiReaderSettings();
+
+            var reader = new OpenApiJsonReader();
+            var result = reader.Read(stream, baseUri, settings);
+
+            return HandleReadResult(config, result);
         }
 
         private async Task<OpenApiDocument> LoadOpenApiDocumentFromUrlAsync(ApiConfiguration config, string url)
@@ -65,6 +91,11 @@ namespace OpenApi.Merger
             var reader = new OpenApiJsonReader();
             var result = reader.Read(stream, baseUri, settings);
 
+            return HandleReadResult(config, result);
+        }
+
+        private OpenApiDocument HandleReadResult(ApiConfiguration config, ReadResult result)
+        {
             var document = result.Document ?? throw new InvalidOperationException("Failed to parse OpenAPI document as JSON.");
             var diagnostic = result.Diagnostic ?? new OpenApiDiagnostic();
 

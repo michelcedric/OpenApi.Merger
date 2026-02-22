@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenApiInspector", "OpenApi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenApi.Merger.Console", "OpenApi.Merger.Console\OpenApi.Merger.Console.csproj", "{F3F1B2E1-5F9E-4E5C-9B66-91C9C6F4B5D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenApi.Merger.Tests", "OpenApi.Merger.Tests\OpenApi.Merger.Tests.csproj", "{D0D7888E-247A-4DF5-883A-37EDC36805B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,5 +27,9 @@ Global
 		{F3F1B2E1-5F9E-4E5C-9B66-91C9C6F4B5D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3F1B2E1-5F9E-4E5C-9B66-91C9C6F4B5D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3F1B2E1-5F9E-4E5C-9B66-91C9C6F4B5D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0D7888E-247A-4DF5-883A-37EDC36805B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0D7888E-247A-4DF5-883A-37EDC36805B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0D7888E-247A-4DF5-883A-37EDC36805B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0D7888E-247A-4DF5-883A-37EDC36805B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
