@@ -1,0 +1,38 @@
+name: CI / Publish NuGet
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish package to NuGet (true/false)'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test --configuration Release --no-restore
+
+      - name: Pack
+        run: dotnet pack OpenApi.Merger/OpenApi.Merger.csproj -c Release -o . --no-build
+
+      - name: Publish
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish == 'true'
+        run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate -n
