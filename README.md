@@ -92,6 +92,16 @@ public class MergeRunner(OpenApiMerger merger)
 
 `MergeMultipleApisAsJsonAsync` returns the merged OpenAPI JSON string. `MergeMultipleApisAsync` returns the `OpenApiDocument` if you need to post-process before serialization.
 
+### Expose merged JSON via one-line endpoint
+
+You can expose the merged OpenAPI JSON from an ASP.NET Core web project with a single line in `Program.cs` (ensure you registered the merger with `builder.Services.AddOpenApiMerger(builder.Configuration)` first):
+
+```csharp
+app.MapGet("/openapi/merged.json", async (OpenApiMerger merger, HttpResponse res) => { res.ContentType = "application/json"; await res.WriteAsync(await merger.MergeMultipleApisAsJsonAsync()); });
+```
+
+This maps `/openapi/merged.json` to return the merged OpenAPI document as JSON at runtime.
+
 ## Notes
 - Input format: JSON swagger documents.
 - The merger prefixes conflicting schema names with the API `Name` and adds tag prefixes `<Name>-<Tag>`.
