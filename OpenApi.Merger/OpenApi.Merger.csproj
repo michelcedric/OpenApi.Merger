@@ -21,6 +21,9 @@
     <DebugType>embedded</DebugType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <!-- Generate XML documentation file for consumers and tools -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\OpenApi.Merger.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -41,4 +44,5 @@
 		</None>
 	</ItemGroup>
 
+  
 </Project>

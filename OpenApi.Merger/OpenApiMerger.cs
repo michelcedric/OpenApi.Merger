@@ -6,10 +6,20 @@ using System.Text;
 
 namespace OpenApi.Merger
 {
+    /// <summary>
+    /// Service that loads multiple OpenAPI documents and merges them into a single <see cref="OpenApiDocument"/>.
+    /// </summary>
+    /// <param name="httpClientFactory">Factory used to create <see cref="System.Net.Http.HttpClient"/> instances for downloading remote specs.</param>
+    /// <param name="logger">Logger for merger operations and diagnostics.</param>
+    /// <param name="options">Configuration options controlling which APIs to merge and the resulting OpenAPI metadata.</param>
     public sealed class OpenApiMerger(IHttpClientFactory httpClientFactory, ILogger<OpenApiMerger> logger, IOptions<OpenApiMergerOptions> options)
     {
         private readonly OpenApiMergerOptions _options = options.Value;
 
+        /// <summary>
+        /// Merges all configured APIs into a single OpenAPI document and returns the serialized JSON string.
+        /// </summary>
+        /// <returns>A JSON string containing the merged OpenAPI (v3) document.</returns>
         public async Task<string> MergeMultipleApisAsJsonAsync()
         {
             var document = await MergeMultipleApisAsync();
@@ -24,6 +34,10 @@ namespace OpenApi.Merger
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Loads and merges all configured APIs into a single <see cref="OpenApiDocument"/> instance.
+        /// </summary>
+        /// <returns>The merged <see cref="OpenApiDocument"/>.</returns>
         public async Task<OpenApiDocument> MergeMultipleApisAsync()
         {
             var loadedApis = new List<(ApiConfiguration Config, OpenApiDocument Document)>();
