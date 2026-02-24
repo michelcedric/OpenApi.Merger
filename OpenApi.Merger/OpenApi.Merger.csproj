@@ -8,7 +8,7 @@
   <PropertyGroup>
     <!-- NuGet package metadata -->
     <PackageId>Extend.OpenApi.Source.Merger</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Michel Cedric</Authors>
     <RepositoryUrl>https://github.com/michelcedric/OpenApi.Merger</RepositoryUrl>
     <PackageProjectUrl>https://github.com/michelcedric/OpenApi.Merger</PackageProjectUrl>
@@ -34,7 +34,7 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
-    <PackageReference Include="Microsoft.OpenApi" Version="3.3.1" />
+    <PackageReference Include="Microsoft.OpenApi" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>
